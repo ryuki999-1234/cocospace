@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="css/lo-rg.css" />
+  <title>ユーザ登録確認画面</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="signup-wrapper">
+      <p>登録内容は以下で宜しいでしょうか?</p>
+      {if $displayName != ""}
+      <form action="user-registration-form.php" method="post">
+        <p>メールアドレス：{$displayMail}</p>
+        <p>ユーザ名：{$displayName}</p>
+        <p>パスワード：{$displayPass}</p>
+        <input type="hidden" name="name" value="{$displayName}" />
+        <input type="submit" name="registration" value="登録する" />
+      </form>
+      {elseif $postRegistration != ""}
+
+      <p>登録完了しました。</p>
+      <a href="login-mail-registration-form.html">戻る</a>
+      {/if}
+    </div>
+  </div>
+</body>
+
+</html>

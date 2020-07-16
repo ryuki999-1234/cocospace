@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <title>掲示板</title>
+</head>
+
+<body>
+  <header>
+    <div class="header-left">
+      <a class="logo" href="bulletin-board-with-file.php">簡易掲示板</a></span>
+    </div>
+    <div class="header-right">
+      <form method="POST" action="bulletin-board-with-file.php">
+        <input class="logout btn-square-little-rich" type="submit" value="Logout" name="logout" />
+      </form>
+    </div>
+  </header>
+
+  <div class="wrapper">
+    <div class="form-list">
+      <div class="form-item">
+        <form method="POST" action="bulletin-board-with-file.php" enctype="multipart/form-data">
+          <h2 class="none-diverted">投稿フォーム</h2>
+          <label class="username">{$userName}</label>でログイン中</br>
+          <input name="name" type="hidden" value="{$editName}" />
+          <p>Comment:</p>
+          <input name="comment" type="text" value="{$editComment}" /></br>
+          <input type="hidden" name="textbox" value="{$editNumber}" />
+          <p>Password:</p>
+          <input type="text" name="sendPass" /><br>
+          <p>File:</p>
+          <input type="file" name="upFile" accept="image/*, video/*" />
+          <input type="submit" value="Send" name="send" />
+        </form>
+      </div>
+      <div class="form-item">
+        <form method="POST" action="bulletin-board-with-file.php">
+          <!--投稿削除用-->
+          <h2>削除フォーム</h2>
+          <p>deleteNumber:</p>
+          <input type="text" name="deleteNumber" /><br>
+          <p>Password:</p>
+          <input type="text" name="deletePass" />
+          <input type="submit" value="Delete" name="delete" />
+        </form>
+      </div>
+      <div class="form-item">
+        <form method="POST" action="bulletin-board-with-file.php">
+          <h2>編集フォーム</h2>
+          <!--投稿編集用-->
+          <p>editNumber:</p>
+          <input type="text" name="editNumber" /><br>
+          <p>Password:</p>
+          <input type="text" name="editPass" />
+          <input type="submit" value="Edit" name="edit" />
+        </form>
+      </div>
+      <div class="message">
+        <p class="message">{$message}</p>
+      </div>
+    </div>
+
+    <div class="post-list">
+      <h1 class="none-diverted">投稿一覧</h1>
+      {foreach $results as $row}
+      <div class="post-item">
+        <div class="letter-item">
+          <p>ID: {$row.id}</p>
+          <p>Name: {$row.name}</p>
+          <p>Comment: {$row.comment}</p>
+          <p>Date: {$row.date}</p>
+          <p>Password: {$row.pass}</p>
+        </div>
+        <div class="file-item">
+          {if !empty($row.ext) && $row.ext === "video"}
+          <video src='{$row.file_path}' controls></video>
+          {elseif !empty($row.ext) && $row.ext === "img"}
+          <img src='{$row.file_path}' width='500' height='300' />
+          {/if}
+        </div>
+        <hr>
+      </div>
+      {/foreach}
+    </div>
+  </div>
+</body>
+
+</html>

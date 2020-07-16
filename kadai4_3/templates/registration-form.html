@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="css/lo-rg.css" />
+  <title>ログイン登録画面</title>
+</head>
+
+<div class="wrapper">
+  <div class="signup-wrapper">
+    <p class="form-title">登録フォーム</p>
+    <form method="POST" action="registration-form.php">
+      <p>Name:</p>
+      <input type="text" name="name" value="" /><br />
+      <p>Password:</p>
+      <input type="text" name="pass" value="" /><br />
+      <p>MailAddress:</p>
+      <input type="email" name="mail" value="" />
+      <input type="submit" value="SignUp" name="signup" />
+    </form>
+    <div class="message">
+      <p>{$message}</p>
+    </div>
+    <hr>
+    <a href="login-form.php">ログインはこちら</a>
+  </div>
+
+  <div class="user-list">
+    <p>登録済みユーザ一覧</p>
+    <p>id,name,pass,mail,flag</p>
+    {foreach $results as $row}
+    <p>{$row.id},{$row.name},{$row.pass},********,{$row.flag}</p>
+    {/foreach}
+  </div>
+</div>
+
+</body>
+
+</html>
