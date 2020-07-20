@@ -235,8 +235,8 @@ if ($cache) {
 
     // file_pathから拡張子情報を取得
     $ext = "";
-    if (!empty($file_path)) {
-      $ext = checkExt($file_path);
+    if (!empty($filePath)) {
+      $ext = checkExt($filePath);
     }
     $results[] = array(
       'id' => $id, 'name' => $name, "comment" => $comment,
