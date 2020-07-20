@@ -21,7 +21,8 @@ function checkExt($filename)
 }
 
 // DBから投稿一覧を表示させる関数
-function displayList($pdo){
+function displayList($pdo)
+{
 
   try {
     //選択SQL文
@@ -29,7 +30,6 @@ function displayList($pdo){
 
     $stmt = $pdo->query($sql);
     $results = $stmt->fetchAll();
-
   } catch (PDOException $e) {
     $message = '<p>' . $e->getMessage() . " - " . $e->getLine() . PHP_EOL . '</p>';
   }
@@ -213,27 +213,36 @@ if (!empty($_POST["edit"])) {
 $cache = $Cache_Lite->get($cacheId);
 if ($cache) {
   $results = $cache;
-  
+
   // 削除の場合、キャッシュから該当部分を削除
   if (!empty($_POST["delete"]) && $formFlag) {
     $results = [];
-    foreach((object)$cache as $row){
-      if($row["id"] != $deleteNumber){
+    foreach ((object)$cache as $row) {
+      if ($row["id"] != $deleteNumber) {
         $results[] = $row;
       }
     }
     $Cache_Lite->save($results, $cacheId);
 
-  // 編集の場合、投稿分をキャッシュに追加する
-  }elseif (!empty($_POST["send"]) && !empty($_POST["textbox"]) && $formFlag) {
+    // 編集の場合、投稿分をキャッシュに追加する
+  } elseif (!empty($_POST["send"]) && !empty($_POST["textbox"]) && $formFlag) {
     $results = displayList($pdo);
     $Cache_Lite->save($results, $cacheId);
 
-  // 新規投稿の場合、投稿分をキャッシュに追加する
-  }elseif (!empty($_POST["send"]) && empty($_POST["textbox"]) && $formFlag) {
+    // 新規投稿の場合、投稿分をキャッシュに追加する
+  } elseif (!empty($_POST["send"]) && empty($_POST["textbox"]) && $formFlag) {
     $id = $pdo->lastInsertId();
-    $results[] = array('id'=> $id, 'name'=>$name, "comment"=>$comment,
-           "date"=>$date, "pass"=>$pass, "file_path"=>$filePath);
+
+    // file_pathから拡張子情報を取得
+    $ext = "";
+    if (!empty($file_path)) {
+      $ext = checkExt($file_path);
+    }
+    $results[] = array(
+      'id' => $id, 'name' => $name, "comment" => $comment,
+      "date" => $date, "pass" => $pass, "file_path" => $filePath, "ext" => $ext
+    );
+
     $Cache_Lite->save($results, $cacheId);
   }
 
